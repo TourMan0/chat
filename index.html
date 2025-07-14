@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Регистрация</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Регистрация</h2>
+    <input id="name" placeholder="Имя">
+    <input id="userid" placeholder="ID (например: 17658)">
+    <input id="avatar" type="file" accept="image/*">
+    <button onclick="register()">Продолжить</button>
+  </div>
+
+  <script>
+    function register() {
+      const name = document.getElementById('name').value;
+      const id = document.getElementById('userid').value;
+      const avatarFile = document.getElementById('avatar').files[0];
+
+      if (!name || !id || !avatarFile) {
+        alert("Заполните все поля");
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const avatarUrl = e.target.result;
+        const user = { name, id, avatar: avatarUrl };
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("chats", JSON.stringify([])); // пустой список чатов
+        window.location.href = "app.html";
+      };
+      reader.readAsDataURL(avatarFile);
+    }
+  </script>
+</body>
+</html>
+
