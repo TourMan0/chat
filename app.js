@@ -1,16 +1,13 @@
-// Получаем текущего пользователя и всех пользователей
 let user = JSON.parse(localStorage.getItem("user"));
 let allUsers = JSON.parse(localStorage.getItem("users")) || [];
 
 if (!user) location.href = "index.html";
 
-// Отображаем профиль пользователя
 document.getElementById("profile").innerHTML = `
-  <img src="${user.avatar}" />
+  <img src="${user.avatar}" class="avatar" />
   <div><strong>${user.name}</strong><br>ID: ${user.id}</div>
 `;
 
-// Рендер списка чатов/пользователей
 function renderChats() {
   const search = document.getElementById("search").value.toLowerCase();
   const chatList = document.getElementById("chatList");
@@ -33,7 +30,6 @@ function renderChats() {
     });
 }
 
-// Открытие чата с выбранным пользователем
 function openChat(other) {
   const view = document.getElementById("chatView");
   view.innerHTML = `
@@ -42,24 +38,20 @@ function openChat(other) {
   `;
 }
 
-// Открытие настроек
 function openSettings() {
   document.getElementById("settings").classList.remove("hidden");
 }
 
-// Закрытие настроек
 function closeSettings() {
   document.getElementById("settings").classList.add("hidden");
 }
 
-// Сохранение имени
 function saveSettings() {
   const newName = document.getElementById("newName").value.trim();
   if (newName) {
     user.name = newName;
     localStorage.setItem("user", JSON.stringify(user));
 
-    // Обновим имя в массиве всех пользователей
     allUsers = allUsers.map(u => u.id === user.id ? user : u);
     localStorage.setItem("users", JSON.stringify(allUsers));
 
@@ -68,4 +60,5 @@ function saveSettings() {
 }
 
 renderChats();
+
 
