@@ -30,9 +30,16 @@
         const avatarUrl = e.target.result;
         const user = { name, id, avatar: avatarUrl };
         localStorage.setItem("user", JSON.stringify(user));
-        localStorage.setItem("chats", JSON.stringify([])); // пустой список чатов
+
+        // добавляем в общую базу
+        let allUsers = JSON.parse(localStorage.getItem("users")) || [];
+        allUsers.push(user);
+        localStorage.setItem("users", JSON.stringify(allUsers));
+
+        localStorage.setItem("chats", JSON.stringify([]));
         window.location.href = "app.html";
-      };
+};
+
       reader.readAsDataURL(avatarFile);
     }
   </script>
