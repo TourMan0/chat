@@ -6,24 +6,21 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
+  <div class="register-container">
     <h2>Регистрация</h2>
-    <input id="name" placeholder="Имя">
-    <input id="userid" placeholder="ID (например: 17658)">
-    <input id="avatar" type="file" accept="image/*">
-    <button onclick="register()">Продолжить</button>
+    <input type="text" id="name" placeholder="Имя">
+    <input type="text" id="id" placeholder="ID (любые цифры)">
+    <input type="file" id="avatar" accept="image/*">
+    <button onclick="register()">Войти</button>
   </div>
 
   <script>
     function register() {
-      const name = document.getElementById('name').value;
-      const id = document.getElementById('userid').value;
-      const avatarFile = document.getElementById('avatar').files[0];
+      const name = document.getElementById("name").value.trim();
+      const id = document.getElementById("id").value.trim();
+      const file = document.getElementById("avatar").files[0];
 
-      if (!name || !id || !avatarFile) {
-        alert("Заполните все поля");
-        return;
-      }
+      if (!name || !id || !file) return alert("Заполните все поля");
 
       const reader = new FileReader();
       reader.onload = function(e) {
@@ -31,18 +28,17 @@
         const user = { name, id, avatar: avatarUrl };
         localStorage.setItem("user", JSON.stringify(user));
 
-        // добавляем в общую базу
-        let allUsers = JSON.parse(localStorage.getItem("users")) || [];
-        allUsers.push(user);
-        localStorage.setItem("users", JSON.stringify(allUsers));
+        // Добавим в базу пользователей
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        users.push(user);
+        localStorage.setItem("users", JSON.stringify(users));
 
-        localStorage.setItem("chats", JSON.stringify([]));
         window.location.href = "app.html";
-};
-
-      reader.readAsDataURL(avatarFile);
+      };
+      reader.readAsDataURL(file);
     }
   </script>
 </body>
 </html>
+
 
